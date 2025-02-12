@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: ecommerce_db
+    restart: always
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: sa
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ecommerce_network
+
+  mq:
+    image: rmohr/activemq:latest
+    container_name: ecommerce_mq
+    restart: always
+    environment:
+      ACTIVEMQ_USER: root
+      ACTIVEMQ_PASSWORD: root
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    networks:
+      - ecommerce_network
+
+  admin4:
+    image: dpage/pgadmin4
+    container_name: ecommerce_admin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: sa@endava.com
+      PGADMIN_DEFAULT_PASSWORD: sa
+      PGADMIN_LISTEN_PORT: 8001
+    ports:
+      - "8001:8001"
+    networks:
+      - ecommerce_network
+
+volumes:
+  postgres_data:
+
+networks:
+  ecommerce_network:
+    driver: bridge
