@@ -1,0 +1,62 @@
+services:
+  analytics-service:
+    build: ./analytics-service/
+    container_name: analytics-service
+    ports:
+      - "5004:5004"
+
+  catalog-service:
+    build: ./catalog-service/
+    container_name: catalog-service
+    ports:
+      - "5003:5003"
+
+  order-service:
+    build: ./order-service/
+    container_name: order-service
+    ports:
+      - "5002:5002"
+
+  user-service:
+    build: ./user-service/
+    container_name: user-service
+    ports:
+      - "5001:5001"
+
+  db:
+    image: postgres:latest
+    container_name: ecommerce_db
+    restart: always
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: sa
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mq:
+    image: rmohr/activemq:latest
+    container_name: ecommerce_mq
+    restart: always
+    environment:
+      ACTIVEMQ_USER: root
+      ACTIVEMQ_PASSWORD: root
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+
+  admin4:
+    image: dpage/pgadmin4
+    container_name: ecommerce_admin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: sa@endava.com
+      PGADMIN_DEFAULT_PASSWORD: sa
+      PGADMIN_LISTEN_PORT: 8001
+    ports:
+      - "8001:8001"
+
+volumes:
+  postgres_data:
