@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
 
     // Handle MethodArgumentNotValidException
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.error("Handle MethodArgumentNotValidException: {}", ex.getMessage(), ex);
         Map<String, Object> errorDetails = new HashMap<>();
         errorDetails.put("timestamp", LocalDateTime.now());
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 
     // Handle DataIntegrityViolationException
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         log.error("Handle DataIntegrityViolationException: {}", ex.getMessage(), ex);
         Map<String, Object> errorDetails = new HashMap<>();
         errorDetails.put("timestamp", LocalDateTime.now());

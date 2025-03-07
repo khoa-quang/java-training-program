@@ -2,7 +2,7 @@ package com.endava.user.controller;
 
 import com.endava.user.model.User;
 import com.endava.user.service.UserService;
-import com.endava.user.utils.PasswordUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     // GET /api/users - Retrieve all users
     @GetMapping("all")
@@ -43,7 +40,6 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@Valid @RequestBody User user) {
         log.info("Creating user: {}", user);
-        user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
         User createdUser = userService.createUser(user);
         log.debug("Created user: {}", createdUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
